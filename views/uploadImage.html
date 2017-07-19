@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+		<meta http-equiv="Content-Type" content="text/html" charset= "utf-8 ">
+		
+		<title>添加主题</title>
+				<script type="text/javascript">
+					window.onload= function(){
+						var input = document.getElementById("file_input");
+				        var result,div;
+
+				        if(typeof FileReader==='undefined'){
+				            result.innerHTML = "抱歉，你的浏览器不支持 FileReader";
+				            input.setAttribute('disabled','disabled');
+				        }else{
+				            input.addEventListener('change',readFile,false);
+				        }
+
+				        function readFile(){
+				            for(var i=0;i<this.files.length;i++){
+				                // if (!input['value'].match(/.jpg|.gif|.png|.bmp/i)){　　//判断上传文件格式
+				                //     return alert("上传的图片格式不正确，请重新选择");　　　　　
+				                // }
+				                var reader = new FileReader();
+				                reader.readAsDataURL(this.files[i]);
+
+				                reader.onload = function(e){
+
+
+				                	result = '<div id="result" \><img src=" '+this.result+'" alt=""  style = "width:200px;height:150px"/></div>';
+
+				                    div = document.createElement('div');
+				                    div.style.width = "200px";
+				                    div.style.height = "150px";
+				                    div.style.float = "left";
+				                    div.style.border = "1px solid red";
+				                    div.innerHTML = result;
+				                    document.getElementById('divbody').appendChild(div);  　　//插入dom树 
+				                }
+				            }
+				        }
+					}
+				</script>
+		<script type="text/javascript" src="cdn.bootcss.com/jquery/3.0.0-beta1/jquery.min.js"></script>
+		<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<div class="container" id="divbody">
+			<h1>添加图片主题</h1>
+			<form action="/uploadImage" method="post" enctype="multipart/form-data">
+				
+				<div class="form-group">
+					<label>标题:</label>
+					<input name="title" class="form-control">
+				</div>
+
+				<div class="form-group">
+					<label>图标:</label>
+					<label>(头条750X360,普通214X116)</label>
+					<input type="file" class="btn btn-default" name="icon">
+				</div>
+
+				<div class="form-group">
+					<label>图片:</label> 
+					<input type="file" id="file_input" class="btn btn-default" name="multiImages" multiple>
+				</div>
+
+				<div class="form-group">
+					<label><input type="checkbox" value="1" name="isVip" > 会员专享</label>
+				</div>
+
+				<div class="form-group">
+					<label><input type="radio" value="1" name="topicType" > 爽图</label>
+					<label><input type="radio" value="2" name="topicType" > cosplay</label>
+					<label><input type="radio" value="3" name="topicType" > 动漫</label>
+				</div>
+
+				<button type="submit" class="btn btn-default">添加主题</button>
+
+			</form>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,26 @@
+{{template "header"}}
+<link rel="stylesheet" href="/static/css/view-picture-detail.css" type="text/css">
+
+{{template "middle"}}
+{{template "nav"}}
+
+<div class="content-wrap">
+	<div class="content">
+		{{$tid := .Ib.Id}}
+		<div class="detail-header">
+			<h2>{{.Ib.Title}}</h2>
+			<div class="detail-info">
+				<span>日期{{.CreateTime}}</span>
+				<span>被撸{{.LuTime}}次</span>
+			</div>
+		</div>
+
+		{{range .Images}}
+		<p>
+			<img src="/static/images/{{$tid}}/{{.}}" alt="" width="100%" height="100%">
+		</p>
+		{{end}}
+	</div>
+</div>
+
+{{template "footer"}}

@@ -1,0 +1,1 @@
+/Users/ybz/Documents/tools/mongodb/bin/mongod -dbpath /Users/ybz/Documents/data/mongo -logpath /Users/ybz/Documents/data/mongo/mongodb.log &

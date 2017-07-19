@@ -1,0 +1,24 @@
+{{template "header"}}
+<link rel="stylesheet" href="/static/css/more-view-picture.css" type="text/css">
+{{template "middle"}}
+{{template "nav"}}
+
+<div class="content-wrap">
+	<div class="content">
+	{{range .Ib}}
+		<div class="more-list">
+			<span class="more-list-icon">
+			<a href="/viewPictureDetail?tid={{.Id}}">
+				<img src="/static/icon/{{.Id}}/{{.Icon}}" class="img_s">
+			</a>
+			</span>
+			
+			<span class="ibb_t">
+				<a href="/static/icon/{{.Id}}/{{.Icon}}">{{.Title}}</a>
+			</span>
+		</div>
+	{{end}}
+	</div>
+</div>
+
+{{template "footer"}}
