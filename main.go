@@ -1,14 +1,12 @@
 package main
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/cocobao/shitcake/conf"
-	_ "github.com/cocobao/shitcake/routers"
-	"github.com/cocobao/shitcake/store"
+	"runtime"
+
+	"github.com/cocobao/shitcake/server"
 )
 
 func main() {
-	conf.SetupConfig()
-	store.SetupMongoDB(conf.GCfg.MongoDb)
-	beego.Run()
+	runtime.GOMAXPROCS(runtime.NumCPU())
+	server.Setup()
 }

@@ -1,14 +1,38 @@
 package routers
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/cocobao/shitcake/controller"
+	"fmt"
+	"net/http"
+	"os"
+
+	"github.com/cocobao/shitcake/conf"
+	"github.com/facebookgo/grace/gracehttp"
+	"github.com/gin-gonic/gin"
 )
 
-func init() {
-	beego.Router("/", &controller.HomeController{})
-	beego.Router("/login", &controller.LogController{}, "get:Login")
-	beego.Router("/login", &controller.LogController{}, "post:LoginCommit")
-	beego.Router("/upload", &controller.Upload{})
+func LoadRouter() http.Handler {
+	gin.SetMode(gin.DebugMode)
+	router := gin.New()
+	router.Use(gin.Recovery())
+	router.Use(gin.Logger())
+	router.LoadHTMLGlob("views/*")
+	router.Static("/static", "./static")
+	router.GET("/login", LoginGet)
+	router.POST("/login", LoginPost)
+	router.GET("/upload", UploadGet)
+	router.POST("/upload", UploadPost)
+	return router
+}
 
+func Run() {
+	err := gracehttp.Serve(
+		&http.Server{
+			Addr:    conf.GCfg.Port,
+			Handler: LoadRouter(),
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(0)
+	}
 }

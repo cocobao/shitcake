@@ -1,24 +1,32 @@
 package controller
 
+import (
+	"github.com/gin-gonic/gin"
+)
+
 var IsLogin bool
 
 type LogController struct {
 	BaseController
 }
 
-func (c *LogController) Login() {
-	c.TplName = "login.html"
+func NewLogController(c *gin.Context) *LogController {
+	ctrl := &LogController{}
+	ctrl.ginCtx = c
+	return ctrl
 }
 
-func (c *LogController) LoginCommit() {
-	uname := c.Input().Get("uname")
-	pwd := c.Input().Get("pwd")
+func (c *LogController) Get() {
+	c.TurnToPage("login.html")
+}
+
+func (c *LogController) Post() {
+	uname := c.ginCtx.Request.PostFormValue("uname")
+	pwd := c.ginCtx.Request.PostFormValue("pwd")
 
 	if uname != "admin" || pwd != "admin" {
-		c.Redirect("/login", 301)
-		return
+		c.ginCtx.Redirect(301, "/login")
 	}
 	IsLogin = true
-	c.Redirect("/upload", 0)
-	// c.TplName = "uploadImage.html"
+	c.TurnToPage("uploadImage.html")
 }

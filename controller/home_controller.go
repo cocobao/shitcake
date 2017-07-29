@@ -5,9 +5,9 @@ type HomeController struct {
 }
 
 func (c *HomeController) Get() {
-	if !IsLogin {
-		c.Redirect("/login", 301)
-		return
-	}
-	c.TplName = "home.html"
+	// if !IsLogin {
+	// 	c.Redirect("/login", 301)
+	// 	return
+	// }
+	// c.TplName = "home.html"
 }

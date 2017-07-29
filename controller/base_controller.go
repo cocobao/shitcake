@@ -1,9 +1,15 @@
 package controller
 
 import (
-	"github.com/astaxie/beego"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type BaseController struct {
-	beego.Controller
+	ginCtx *gin.Context
+}
+
+func (c *BaseController) TurnToPage(page string) {
+	c.ginCtx.HTML(http.StatusOK, page, gin.H{})
 }
