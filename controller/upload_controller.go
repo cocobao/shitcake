@@ -1,9 +1,20 @@
 package controller
 
 import (
-	"mime/multipart"
+	"fmt"
+	"io"
+	"os"
+	"path"
+	"strconv"
+	"time"
 
+	"github.com/Unknwon/com"
+	"github.com/cocobao/shitcake/model"
 	"github.com/gin-gonic/gin"
+
+	log "github.com/cihub/seelog"
+	"github.com/cocobao/shitcake/store"
+	"github.com/cocobao/shitcake/utils"
 )
 
 type UploadController struct {
@@ -17,61 +28,93 @@ func NewUploadController(c *gin.Context) *UploadController {
 }
 
 func (c *UploadController) Get() {
-	if !IsLogin {
-		c.ginCtx.Redirect(301, "/login")
-		return
-	}
 	c.TurnToPage("uploadImage.html")
 }
 
 func (c *UploadController) Post() {
-	// multiImage, err := c.GetFiles("multiImages")
-	// if err != nil || multiImage == nil {
-	// 	c.gotError("get multiImage err", err)
-	// 	return
-	// }
-	// topicId := time.Now().Unix()
-	// c.staticImageList(multiImage, topicId)
+	topicId := time.Now().Unix()
+
+	var err error
+	err = c.SaveIcon(topicId)
+	if err != nil {
+		log.Warn("save icon fail", err)
+		c.ginCtx.Redirect(301, "/upload")
+		return
+	}
+	err = c.staticImageList(topicId)
+	if err != nil {
+		log.Warn("save images fail", err)
+		c.ginCtx.Redirect(301, "/upload")
+		return
+	}
+
+	title := c.ginCtx.PostForm("title")
+	isVip := c.ginCtx.PostForm("isVip")
+	category, _ := strconv.Atoi(c.ginCtx.PostForm("category"))
+
+	store.Db.SaveImageTopic(&model.ImageTopic{
+		TopicID:    topicId,
+		Title:      title,
+		Category:   category,
+		IsVip:      isVip,
+		CreateTime: utils.TimeSecToString(time.Now().Unix()),
+		SeeTime:    0,
+	})
+	c.TurnToPage("uploadImage.html")
 }
 
-func (c *UploadController) staticImageList(multiImage []*multipart.FileHeader, topicId int64) (imgList []string, err error) {
-	// finish := true
-	// for i, fh := range multiImage {
-	// 	randName := utils.Md5StringByNowTime()
+func (c *UploadController) SaveIcon(topicId int64) error {
+	fromFile, header, err := c.ginCtx.Request.FormFile("icon")
+	if err != nil {
+		log.Warn("get icon file fail", err)
+	}
+	defer fromFile.Close()
 
-	// 	func() {
-	// 		file, err := fh.Open()
-	// 		if err != nil {
-	// 			beego.Error("open multiImage fail", i, err)
-	// 			finish = false
-	// 			return
-	// 		}
-	// 		defer file.Close()
+	pt := path.Join("static/icon", fmt.Sprintf("/%d/%s", topicId, header.Filename))
+	log.Debug("img:", pt)
+	if !com.IsExist(pt) {
+		os.MkdirAll(path.Dir(pt), os.ModePerm)
+	}
 
-	// 		pt := path.Join("static", fmt.Sprintf("images/%d/%s", topicId, randName))
-	// 		if !com.IsExist(pt) {
-	// 			os.MkdirAll(path.Dir(pt), os.ModePerm)
-	// 		}
+	//生成目标本地文件
+	var dst *os.File
+	dst, err = os.Create(pt)
+	defer dst.Close()
+	if err != nil {
+		log.Warn("dst create fail", err)
+		return err
+	}
 
-	// 		//生成目标本地文件
-	// 		var dst *os.File
-	// 		dst, err = os.Create(pt)
-	// 		defer dst.Close()
-	// 		if err != nil {
-	// 			beego.Error("dst create fail", i, err)
-	// 			return
-	// 		}
+	//拷贝图片数据到本地文件
+	if _, err = io.Copy(dst, fromFile); err != nil {
+		log.Warn("io copy fail", err)
+		return err
+	}
+	return nil
+}
 
-	// 		//拷贝图片数据到本地文件
-	// 		if _, err = io.Copy(dst, file); err != nil {
-	// 			beego.Error("io copy fail", i, err)
-	// 			return
-	// 		}
-	// 	}()
-	// }
+func (c *UploadController) staticImageList(topicId int64) error {
+	from, err := c.ginCtx.MultipartForm()
+	if err != nil {
+		log.Error("get MultipartForm fail", err)
+		return err
+	}
 
-	// if !finish {
+	files := from.File["multiImages"]
+	if files == nil || len(files) == 0 {
+		fmt.Errorf("no multi file found,%v", files)
+	}
+	for _, oneFile := range files {
+		pt := path.Join("static/images", fmt.Sprintf("%d/%s", topicId, oneFile.Filename))
+		log.Debug("img:", pt)
+		if !com.IsExist(pt) {
+			os.MkdirAll(path.Dir(pt), os.ModePerm)
+		}
+		if err := c.ginCtx.SaveUploadedFile(oneFile, pt); err != nil {
+			return fmt.Errorf("save file fail,%d, %s,%v", topicId, oneFile.Filename, err)
+		}
+		log.Debug("save img success,", oneFile.Filename)
+	}
 
-	// }
-	return
+	return nil
 }

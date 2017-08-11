@@ -21,7 +21,7 @@ type Config struct {
 func Unmarshal(path string) *Config {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Error("read config file fail")
+		fmt.Println("read config file fail")
 		os.Exit(0)
 	}
 	cfg := &Config{}
@@ -32,6 +32,17 @@ func Unmarshal(path string) *Config {
 	return cfg
 }
 
+func setupLogging(path string) {
+	logger, err := log.LoggerFromConfigAsFile(path)
+	if err != nil {
+		panic("read log config file failed! error:" + err.Error())
+	}
+	log.ReplaceLogger(logger)
+	logger.Flush()
+	log.Debug("setup log ok")
+}
+
 func SetupConfig() {
+	setupLogging("conf/log.xml")
 	GCfg = Unmarshal("conf/setting.yaml")
 }

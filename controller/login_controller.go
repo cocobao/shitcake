@@ -6,6 +6,15 @@ import (
 
 var IsLogin bool
 
+func Auth() gin.HandlerFunc {
+	return func(g *gin.Context) {
+		// if !IsLogin {
+		// 	g.Redirect(301, "/login")
+		// 	return
+		// }
+	}
+}
+
 type LogController struct {
 	BaseController
 }

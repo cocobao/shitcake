@@ -2,42 +2,30 @@
 <link rel="stylesheet" href="/static/css/home.css" type="text/css">
 
 {{template "middle"}}
-{{template "nav"}}
+<!-- {{template "nav"}} -->
 
 <div class="imageBlockView">
 <div class="imageBlockHeader">
-		<h3 class="ibh_l">纯洁图片</h3>
-		<h3 class="ibh_r"><a href="/moreViewPicture">更多</a></h3>
+		<h3 class="ibh_l">纯洁图</h3>
+		<!-- <h3 class="ibh_r"><a href="/more_view">更多</a></h3> -->
 </div>
-	{{range .ImageBlock}}
+	 {{range .images}}
 	<div class="imageBlockView_son">
-		<div class="imageView">
-			<a href="/viewPictureDetail?tid={{.Id}}">
-				<img src="/static/icon/{{.Id}}/{{.Icon}}" alt="" width="100%" height="100%">
+		<!-- <div class="imageView">
+			<a href="/viewPictureDetail?tid={{.topic_id}}">
+				<img src="/static/icon/{{.topic_id}}/{{.Icon}}" alt="" width="100%" height="100%">
 			</a>
 		</div>
 		<span class="ibb_t">
-		<a href="/static/icon/{{.Id}}/{{.Icon}}">
+		<a href="/static/icon/{{.topic_id}}/{{.Icon}}">
 			{{.Title}}
 		</a>
-		</span>
+		</span> -->
+		{{.title}}
 	</div>
-	{{end}}
-	</div>
-</div>
-
-<div class="imageBlockView">
-	<div class="imageBlockHeader">
-			<h3 class="ibh_l">工口漫画</h3>
-			<h3 class="ibh_r">更多</h3>
+	{{end}} 
 	</div>
 </div>
 
-<div class="imageBlockView">
-	<div class="imageBlockHeader">
-			<h3 class="ibh_l">内涵漫画</h3>
-			<h3 class="ibh_r">更多</h3>
-	</div>
-</div>
 
 {{template "footer"}}

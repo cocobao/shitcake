@@ -5,6 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func HomeGet(c *gin.Context) {
+	controller.NewHomeController(c).Get()
+}
+
 func LoginGet(c *gin.Context) {
 	controller.NewLogController(c).Get()
 }
