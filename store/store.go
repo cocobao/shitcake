@@ -39,7 +39,7 @@ func (d *storage) SaveImageTopic(data *model.ImageTopic) error {
 	return err
 }
 
-func (d *storage) GetImageTopic(count int) *[]model.ImageTopic {
+func (d *storage) GetImageTopic(count int) []model.ImageTopic {
 	c := d.MgoSession.Clone()
 	defer c.Close()
 	coll := c.DB(DBTopic).C(DBColl)
@@ -51,5 +51,22 @@ func (d *storage) GetImageTopic(count int) *[]model.ImageTopic {
 	for iter.Next(&one) {
 		out = append(out, one)
 	}
-	return &out
+	return out
+}
+
+func (d *storage) GetImageTopicWithTid(topicID string) (*model.ImageTopic, error) {
+	c := d.MgoSession.Clone()
+	defer c.Close()
+	coll := c.DB(DBTopic).C(DBColl)
+
+	selector := bson.M{"topic_id": topicID}
+	var data model.ImageTopic
+	err := coll.Find(selector).One(&data)
+	if err != nil {
+		return nil, err
+	}
+
+	data.SeeTime += 1
+	coll.Upsert(selector, data)
+	return &data, nil
 }

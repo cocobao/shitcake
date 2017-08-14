@@ -24,3 +24,7 @@ func UploadGet(c *gin.Context) {
 func UploadPost(c *gin.Context) {
 	controller.NewUploadController(c).Post()
 }
+
+func TopicDetail(c *gin.Context) {
+	controller.NewTopicController(c).Get()
+}

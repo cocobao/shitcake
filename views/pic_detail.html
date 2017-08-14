@@ -2,20 +2,21 @@
 <link rel="stylesheet" href="/static/css/view-picture-detail.css" type="text/css">
 
 {{template "middle"}}
-{{template "nav"}}
+<!-- {{template "nav"}} -->
 
 <div class="content-wrap">
 	<div class="content">
-		{{$tid := .Ib.Id}}
+		
 		<div class="detail-header">
-			<h2>{{.Ib.Title}}</h2>
+			<h2>{{.files.title}}</h2>
 			<div class="detail-info">
-				<span>日期{{.CreateTime}}</span>
-				<span>被撸{{.LuTime}}次</span>
+				<span>日期{{.files.create_time}}</span>
+				<span>被撸{{.files.see_time}} 次</span>
 			</div>
 		</div>
 
-		{{range .Images}}
+		{{$tid := .files.topic_id}}
+		{{range .files.images}}
 		<p>
 			<img src="/static/images/{{$tid}}/{{.}}" alt="" width="100%" height="100%">
 		</p>

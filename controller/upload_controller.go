@@ -32,46 +32,51 @@ func (c *UploadController) Get() {
 }
 
 func (c *UploadController) Post() {
-	topicId := time.Now().Unix()
+	title := c.ginCtx.PostForm("title")
+	isVip := c.ginCtx.PostForm("isVip")
+	category, _ := strconv.Atoi(c.ginCtx.PostForm("category"))
+	topicID := strconv.Itoa(int(time.Now().Unix()))
+
+	topic := &model.ImageTopic{
+		TopicID:    topicID,
+		Title:      title,
+		Category:   category,
+		IsVip:      isVip,
+		CreateTime: utils.TimeSecToString(time.Now().Unix()),
+		SeeTime:    0,
+	}
 
 	var err error
-	err = c.SaveIcon(topicId)
+	err = c.SaveIcon(topic)
 	if err != nil {
 		log.Warn("save icon fail", err)
 		c.ginCtx.Redirect(301, "/upload")
 		return
 	}
-	err = c.staticImageList(topicId)
+	err = c.staticImageList(topic)
 	if err != nil {
 		log.Warn("save images fail", err)
 		c.ginCtx.Redirect(301, "/upload")
 		return
 	}
 
-	title := c.ginCtx.PostForm("title")
-	isVip := c.ginCtx.PostForm("isVip")
-	category, _ := strconv.Atoi(c.ginCtx.PostForm("category"))
-
-	store.Db.SaveImageTopic(&model.ImageTopic{
-		TopicID:    topicId,
-		Title:      title,
-		Category:   category,
-		IsVip:      isVip,
-		CreateTime: utils.TimeSecToString(time.Now().Unix()),
-		SeeTime:    0,
-	})
+	store.Db.SaveImageTopic(topic)
 	c.TurnToPage("uploadImage.html")
 }
 
-func (c *UploadController) SaveIcon(topicId int64) error {
-	fromFile, header, err := c.ginCtx.Request.FormFile("icon")
+func (c *UploadController) SaveIcon(model *model.ImageTopic) error {
+	fromFile, _, err := c.ginCtx.Request.FormFile("icon")
 	if err != nil {
 		log.Warn("get icon file fail", err)
 	}
 	defer fromFile.Close()
 
-	pt := path.Join("static/icon", fmt.Sprintf("/%d/%s", topicId, header.Filename))
-	log.Debug("img:", pt)
+	ranName := utils.Md5StringByNowTime()
+	// u, _ := url.Parse(header.Filename)
+	// model.Icon = u.EscapedPath()
+	model.Icon = ranName
+
+	pt := path.Join("static/icon", fmt.Sprintf("/%s/%s", model.TopicID, ranName))
 	if !com.IsExist(pt) {
 		os.MkdirAll(path.Dir(pt), os.ModePerm)
 	}
@@ -93,7 +98,7 @@ func (c *UploadController) SaveIcon(topicId int64) error {
 	return nil
 }
 
-func (c *UploadController) staticImageList(topicId int64) error {
+func (c *UploadController) staticImageList(model *model.ImageTopic) error {
 	from, err := c.ginCtx.MultipartForm()
 	if err != nil {
 		log.Error("get MultipartForm fail", err)
@@ -102,19 +107,25 @@ func (c *UploadController) staticImageList(topicId int64) error {
 
 	files := from.File["multiImages"]
 	if files == nil || len(files) == 0 {
-		fmt.Errorf("no multi file found,%v", files)
+		return fmt.Errorf("no multi file found,%v", files)
 	}
+	var fileNames []string
 	for _, oneFile := range files {
-		pt := path.Join("static/images", fmt.Sprintf("%d/%s", topicId, oneFile.Filename))
-		log.Debug("img:", pt)
+		// u, _ := url.Parse(oneFile.Filename)
+		// name := u.EscapedPath()
+		ranName := utils.Md5StringByNowTime()
+
+		pt := path.Join("static/images", fmt.Sprintf("%s/%s", model.TopicID, ranName))
 		if !com.IsExist(pt) {
 			os.MkdirAll(path.Dir(pt), os.ModePerm)
 		}
+		fileNames = append(fileNames, ranName)
 		if err := c.ginCtx.SaveUploadedFile(oneFile, pt); err != nil {
-			return fmt.Errorf("save file fail,%d, %s,%v", topicId, oneFile.Filename, err)
+			return fmt.Errorf("save file fail,%s, %s,%v", model.TopicID, ranName, err)
 		}
 		log.Debug("save img success,", oneFile.Filename)
 	}
+	model.Images = fileNames
 
 	return nil
 }

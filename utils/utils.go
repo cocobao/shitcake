@@ -3,6 +3,7 @@ package utils
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 	"time"
 )
 
@@ -18,4 +19,12 @@ func TimeSecToString(sec int64) string {
 
 func timestampToString(sec int64, formate string) string {
 	return time.Unix(sec, 0).Format(string(formate))
+}
+
+func StructToMapJson(src interface{}) map[string]interface{} {
+	b, _ := json.Marshal(src)
+
+	var m map[string]interface{}
+	json.Unmarshal(b, &m)
+	return m
 }

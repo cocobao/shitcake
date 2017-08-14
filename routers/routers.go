@@ -24,6 +24,7 @@ func LoadRouter() http.Handler {
 	router.POST("/login", LoginPost)
 	router.GET("/upload", UploadGet)
 	router.POST("/upload", UploadPost)
+	router.GET("topicdetail", TopicDetail)
 	return router
 }
 
