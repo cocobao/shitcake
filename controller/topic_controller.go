@@ -1,7 +1,10 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
+	"os"
+	"path"
 
 	log "github.com/cihub/seelog"
 	"github.com/cocobao/shitcake/store"
@@ -32,4 +35,18 @@ func (c *TopicController) Get() {
 	c.ginCtx.HTML(http.StatusOK, "pic_detail.html", gin.H{
 		"files": utils.StructToMapJson(topic),
 	})
+}
+
+func (c *TopicController) Del() {
+	tid := c.ginCtx.Query("tid")
+	err := store.Db.DelImageTopicWithTid(tid)
+	if err != nil {
+		log.Warn("del db topic fail,", err)
+		return
+	}
+	pt := path.Join("static/icon", fmt.Sprintf("/%s/", tid))
+	os.RemoveAll(pt)
+	pt = path.Join("static/images", fmt.Sprintf("/%s/", tid))
+	os.RemoveAll(pt)
+	c.ginCtx.Redirect(301, "/")
 }

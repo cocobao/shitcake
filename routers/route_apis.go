@@ -28,3 +28,7 @@ func UploadPost(c *gin.Context) {
 func TopicDetail(c *gin.Context) {
 	controller.NewTopicController(c).Get()
 }
+
+func DeleteTopic(c *gin.Context) {
+	controller.NewTopicController(c).Del()
+}

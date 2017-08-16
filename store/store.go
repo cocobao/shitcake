@@ -70,3 +70,12 @@ func (d *storage) GetImageTopicWithTid(topicID string) (*model.ImageTopic, error
 	coll.Upsert(selector, data)
 	return &data, nil
 }
+
+func (d *storage) DelImageTopicWithTid(topicID string) error {
+	c := d.MgoSession.Clone()
+	defer c.Close()
+	coll := c.DB(DBTopic).C(DBColl)
+
+	selector := bson.M{"topic_id": topicID}
+	return coll.Remove(selector)
+}
