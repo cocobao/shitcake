@@ -14,8 +14,10 @@ import (
 var GCfg *Config
 
 type Config struct {
-	Port    string `yaml:"port"`
-	MongoDb string `yaml:"mongo_db"`
+	Port       string `yaml:"port"`
+	MongoDb    string `yaml:"mongo_db"`
+	StaticPath string `yaml:"static_path"`
+	ViewPath   string `yaml:"view_path"`
 }
 
 func Unmarshal(path string) *Config {
