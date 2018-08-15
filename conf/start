@@ -1,1 +1,1 @@
-/Users/ybz/Documents/tools/mongodb/bin/mongod -dbpath /Users/ybz/Documents/data/mongo -logpath /Users/ybz/Documents/data/mongo/mongodb.log &
+/Users/ws/Documents/tools/mongodb/bin/mongod -dbpath /Users/ws/Documents/db/mongo -logpath /Users/ws/Documents/db/log/mongo.log &

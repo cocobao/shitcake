@@ -6,7 +6,7 @@ import (
 
 	"io/ioutil"
 
-	log "github.com/cihub/seelog"
+	"github.com/cocobao/log"
 
 	yaml "gopkg.in/yaml.v2"
 )
@@ -35,16 +35,11 @@ func Unmarshal(path string) *Config {
 }
 
 func setupLogging(path string) {
-	logger, err := log.LoggerFromConfigAsFile(path)
-	if err != nil {
-		panic("read log config file failed! error:" + err.Error())
-	}
-	log.ReplaceLogger(logger)
-	logger.Flush()
+
 	log.Debug("setup log ok")
 }
 
 func SetupConfig() {
-	setupLogging("conf/log.xml")
+
 	GCfg = Unmarshal("conf/setting.yaml")
 }
