@@ -6,7 +6,7 @@ import (
 	"os"
 	"path"
 
-	log "github.com/cihub/seelog"
+	"github.com/cocobao/log"
 	"github.com/cocobao/shitcake/store"
 	"github.com/cocobao/shitcake/utils"
 	"github.com/gin-gonic/gin"

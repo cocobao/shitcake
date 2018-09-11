@@ -6,19 +6,26 @@ import (
 
 	"io/ioutil"
 
-	log "github.com/cihub/seelog"
+	"github.com/cocobao/log"
 
 	yaml "gopkg.in/yaml.v2"
 )
 
 var GCfg *Config
 
-type Config struct {
-	Port    string `yaml:"port"`
-	MongoDb string `yaml:"mongo_db"`
+type stLog struct {
+	LogDir   string `yaml:"log_dir"`
+	LogLevel int    `yaml:"log_level"`
 }
 
-func Unmarshal(path string) *Config {
+type Config struct {
+	Port       string `yaml:"port"`
+	MongoDb    string `yaml:"mongo_db"`
+	Log        stLog  `yaml:"log"`
+	StaticPath string `yaml:"static_path"`
+}
+
+func ParseConfig(path string) *Config {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		fmt.Println("read config file fail")
@@ -33,16 +40,11 @@ func Unmarshal(path string) *Config {
 }
 
 func setupLogging(path string) {
-	logger, err := log.LoggerFromConfigAsFile(path)
-	if err != nil {
-		panic("read log config file failed! error:" + err.Error())
-	}
-	log.ReplaceLogger(logger)
-	logger.Flush()
+	log.NewLogger(GCfg.Log.LogDir, GCfg.Log.LogLevel)
 	log.Debug("setup log ok")
 }
 
 func SetupConfig() {
+	GCfg = ParseConfig("conf/setting.yaml")
 	setupLogging("conf/log.xml")
-	GCfg = Unmarshal("conf/setting.yaml")
 }

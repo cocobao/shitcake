@@ -12,7 +12,7 @@ import (
 	"github.com/cocobao/shitcake/model"
 	"github.com/gin-gonic/gin"
 
-	log "github.com/cihub/seelog"
+	"github.com/cocobao/log"
 	"github.com/cocobao/shitcake/store"
 	"github.com/cocobao/shitcake/utils"
 )
