@@ -23,6 +23,7 @@ type Config struct {
 	MongoDb    string `yaml:"mongo_db"`
 	Log        stLog  `yaml:"log"`
 	StaticPath string `yaml:"static_path"`
+	ViewPath   string `yaml:"view_path"`
 }
 
 func ParseConfig(path string) *Config {

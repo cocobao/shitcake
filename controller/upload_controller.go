@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Unknwon/com"
+	// "github.com/Unknwon/com"
 	"github.com/cocobao/shitcake/model"
 	"github.com/gin-gonic/gin"
 
@@ -77,9 +77,9 @@ func (c *UploadController) SaveIcon(model *model.ImageTopic) error {
 	model.Icon = ranName
 
 	pt := path.Join("static/icon", fmt.Sprintf("/%s/%s", model.TopicID, ranName))
-	if !com.IsExist(pt) {
-		os.MkdirAll(path.Dir(pt), os.ModePerm)
-	}
+	// if !com.IsExist(pt) {
+	os.MkdirAll(path.Dir(pt), os.ModePerm)
+	// }
 
 	//生成目标本地文件
 	var dst *os.File
@@ -99,33 +99,33 @@ func (c *UploadController) SaveIcon(model *model.ImageTopic) error {
 }
 
 func (c *UploadController) staticImageList(model *model.ImageTopic) error {
-	from, err := c.ginCtx.MultipartForm()
-	if err != nil {
-		log.Error("get MultipartForm fail", err)
-		return err
-	}
+	// from, err := c.ginCtx.MultipartForm()
+	// if err != nil {
+	// 	log.Error("get MultipartForm fail", err)
+	// 	return err
+	// }
 
-	files := from.File["multiImages"]
-	if files == nil || len(files) == 0 {
-		return fmt.Errorf("no multi file found,%v", files)
-	}
-	var fileNames []string
-	for _, oneFile := range files {
-		// u, _ := url.Parse(oneFile.Filename)
-		// name := u.EscapedPath()
-		ranName := utils.Md5StringByNowTime()
+	// files := from.File["multiImages"]
+	// if files == nil || len(files) == 0 {
+	// 	return fmt.Errorf("no multi file found,%v", files)
+	// }
+	// var fileNames []string
+	// for _, oneFile := range files {
+	// 	// u, _ := url.Parse(oneFile.Filename)
+	// 	// name := u.EscapedPath()
+	// 	ranName := utils.Md5StringByNowTime()
 
-		pt := path.Join("static/images", fmt.Sprintf("%s/%s", model.TopicID, ranName))
-		if !com.IsExist(pt) {
-			os.MkdirAll(path.Dir(pt), os.ModePerm)
-		}
-		fileNames = append(fileNames, ranName)
-		if err := c.ginCtx.SaveUploadedFile(oneFile, pt); err != nil {
-			return fmt.Errorf("save file fail,%s, %s,%v", model.TopicID, ranName, err)
-		}
-		log.Debug("save img success,", oneFile.Filename)
-	}
-	model.Images = fileNames
+	// 	pt := path.Join("static/images", fmt.Sprintf("%s/%s", model.TopicID, ranName))
+	// 	// if !com.IsExist(pt) {
+	// 	os.MkdirAll(path.Dir(pt), os.ModePerm)
+	// 	// }
+	// 	fileNames = append(fileNames, ranName)
+	// 	if err := c.ginCtx.SaveUploadedFile(oneFile, pt); err != nil {
+	// 		return fmt.Errorf("save file fail,%s, %s,%v", model.TopicID, ranName, err)
+	// 	}
+	// 	log.Debug("save img success,", oneFile.Filename)
+	// }
+	// model.Images = fileNames
 
 	return nil
 }

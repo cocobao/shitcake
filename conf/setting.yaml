@@ -5,3 +5,5 @@ log:
   log_dir: ""
   log_level: 0
 static_path: "/Users/ybz/Documents/static"
+static_path: "./static"
+view_path: "views/*"
