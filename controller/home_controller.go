@@ -28,7 +28,7 @@ func (c *HomeController) Get() {
 		i = append(i, m)
 	}
 
-	c.ginCtx.HTML(http.StatusOK, "test.html", gin.H{
+	c.ginCtx.HTML(http.StatusOK, "home.html", gin.H{
 		"files": i,
 	})
 }
