@@ -8,13 +8,13 @@ import (
 	"strconv"
 	"time"
 
-	// "github.com/Unknwon/com"
 	"github.com/cocobao/shitcake/model"
 	"github.com/gin-gonic/gin"
 
 	"github.com/cocobao/log"
 	"github.com/cocobao/shitcake/store"
 	"github.com/cocobao/shitcake/utils"
+	"github.com/google/uuid"
 )
 
 type UploadController struct {
@@ -27,23 +27,43 @@ func NewUploadController(c *gin.Context) *UploadController {
 	return ctrl
 }
 
+func (c *UploadController) SimpleInsertTopic() {
+	var req model.InsertTopicReq
+	if err := c.ParsePayload(&req); err != nil {
+		return
+	}
+
+	store.InsertTopic(&model.ImageTopic{
+		ID:          uuid.New().String(),
+		Icon:        req.Icon,
+		Title:       req.Title,
+		Category:    req.Category,
+		CreateTime:  time.Now().Format(time.RFC3339),
+		IsVip:       req.IsVip,
+		SeeCount:    0,
+		PraiseCount: 0,
+		Description: req.Msg,
+		Images:      req.Images,
+	})
+}
+
 func (c *UploadController) Get() {
 	c.TurnToPage("uploadImage.html")
 }
 
 func (c *UploadController) Post() {
 	title := c.ginCtx.PostForm("title")
-	isVip := c.ginCtx.PostForm("isVip")
+	// isVip := c.ginCtx.PostForm("isVip")
 	category, _ := strconv.Atoi(c.ginCtx.PostForm("category"))
 	topicID := strconv.Itoa(int(time.Now().Unix()))
 
 	topic := &model.ImageTopic{
-		TopicID:    topicID,
-		Title:      title,
-		Category:   category,
-		IsVip:      isVip,
+		ID:       topicID,
+		Title:    title,
+		Category: category,
+		// IsVip:      isVip,
 		CreateTime: utils.TimeSecToString(time.Now().Unix()),
-		SeeTime:    0,
+		SeeCount:   0,
 	}
 
 	var err error
@@ -60,7 +80,7 @@ func (c *UploadController) Post() {
 		return
 	}
 
-	store.Db.SaveImageTopic(topic)
+	store.SaveImageTopic(topic)
 	c.TurnToPage("uploadImage.html")
 }
 
@@ -76,7 +96,7 @@ func (c *UploadController) SaveIcon(model *model.ImageTopic) error {
 	// model.Icon = u.EscapedPath()
 	model.Icon = ranName
 
-	pt := path.Join("static/icon", fmt.Sprintf("/%s/%s", model.TopicID, ranName))
+	pt := path.Join("static/icon", fmt.Sprintf("/%s/%s", model.ID, ranName))
 	// if !com.IsExist(pt) {
 	os.MkdirAll(path.Dir(pt), os.ModePerm)
 	// }

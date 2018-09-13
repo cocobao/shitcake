@@ -25,7 +25,7 @@ func NewTopicController(c *gin.Context) *TopicController {
 func (c *TopicController) Get() {
 	tid := c.ginCtx.Query("tid")
 
-	topic, err := store.Db.GetImageTopicWithTid(tid)
+	topic, err := store.GetImageTopicWithTid(tid)
 	if err != nil {
 		c.ginCtx.Redirect(301, "/")
 		return
@@ -39,7 +39,7 @@ func (c *TopicController) Get() {
 
 func (c *TopicController) Del() {
 	tid := c.ginCtx.Query("tid")
-	err := store.Db.DelImageTopicWithTid(tid)
+	err := store.DelImageTopicWithTid(tid)
 	if err != nil {
 		log.Warn("del db topic fail,", err)
 		return

@@ -32,3 +32,7 @@ func TopicDetail(c *gin.Context) {
 func DeleteTopic(c *gin.Context) {
 	controller.NewTopicController(c).Del()
 }
+
+func InsertTopic(c *gin.Context) {
+	controller.NewUploadController(c).SimpleInsertTopic()
+}

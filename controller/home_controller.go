@@ -2,9 +2,10 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
+	"github.com/cocobao/log"
 	"github.com/cocobao/shitcake/store"
-	"github.com/cocobao/shitcake/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,16 +20,22 @@ func NewHomeController(c *gin.Context) *HomeController {
 }
 
 func (c *HomeController) Get() {
-	topic := store.Db.GetImageTopic(10)
+	topic := store.GetTopics(10, 0)
 
-	var i []interface{}
 	for _, v := range topic {
-		m := utils.StructToMapJson(v)
-		delete(m, "images")
-		i = append(i, m)
+		v.Images = []string{}
+
+		t, err := time.Parse(time.RFC3339, v.CreateTime)
+		if err != nil {
+			log.Warnf("parse time fail,err:%v", err)
+		}
+		st := t.Format("2006-01-02 15:04:05")
+		v.CreateTime = st
+
+		log.Debugf("st:%s, %#v", st, v)
 	}
 
 	c.ginCtx.HTML(http.StatusOK, "home.html", gin.H{
-		"files": i,
+		"items": topic,
 	})
 }

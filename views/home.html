@@ -9,46 +9,7 @@
 
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="shortcut icon" href="/static/icon/favicon.ico" type="image/x-icon">
-
-    <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-        }
-        
-        body {
-            padding-bottom: 50px;
-            background-color: #000000;
-        }
-        
-        .carousel {
-            background-color: white;
-            margin-bottom: 10px;
-        }
-        
-        .carousel .item {
-            background-color: white;
-        }
-        
-        .carousel img {
-            width: 100%;
-        }
-        
-        #homenav {
-            background-color: white;
-        }
-        
-        #summery .col-md-4 {
-            background-color: white;
-            text-align: center;
-            margin-bottom: 2px;
-        }
-        
-        .pic_show {
-            background-color: #000000;
-            margin-bottom: 2px;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/home.css" type="text/css">
 </head>
 
 <body>
@@ -76,13 +37,13 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container" id="summery">
         <div class="row">
             <div class="col-md-12">
-                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <div id="carousel-generic" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-generic" data-slide-to="1"></li>
                     </ol>
 
                     <div class="carousel-inner" role="listbox">
@@ -98,11 +59,11 @@
                         </div>
                     </div>
 
-                    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <a class="left carousel-control" href="#carousel-generic" role="button" data-slide="prev">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
-                    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <a class="right carousel-control" href="#carousel-generic" role="button" data-slide="next">
                         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
@@ -113,25 +74,47 @@
 
     <div class="container" id="summery">
         <div class="row">
-            <div class="col-md-4">
-                <img src="/static/img/test_img_3.png" alt="">
+
+            {{range .items}}
+
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 col-xs-4">
+                        <!-- <a href="/detail?tid={{.Id}}"> -->
+                        <img src="{{.Icon}}" alt="">
+                        <!-- </a> -->
+
+                    </div>
+
+                    <div class="col-md-9 col-xs-8" id="show_word">
+                        <h4 style="text-align: left; margin-top: 50px; margin-left: 10px;">{{.Title}}</h4>
+                        <p style="margin-top:40px ;margin-left: 10px;">
+                            {{.CreateTime}} <span class="glyphicon glyphicon-flag" aria-hidden="true" style="margin-left:5px;"></span> 阅读({{.SeeCount}})
+                            <a href="http://" style="margin-left:5px;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 赞({{.PraiseCount}})</a>
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-                <img src="/static/img/test_img_4.png" alt="">
-            </div>
-            <div class="col-md-4">
-                <img src="/static/img/test_img_5.png" alt="">
-            </div>
+
+            {{end}}
+
         </div>
+
+        <div class="btn-group" role="group" aria-label="">
+            <button type="button" class="btn btn-default">上一页</button>
+            <button type="button" class="btn btn-default">下一页</button>
+        </div>
+        <hr>
     </div>
 
-    <hr>
+
     <footer>
         <p>@ Test </p>
     </footer>
 
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <script src="/static/js/jquery-3.2.1.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 
 </html>

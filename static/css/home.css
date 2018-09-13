@@ -1,38 +1,31 @@
-.imageBlockView{
-	width:375px; 
-	 height: 225px;
-	 background-color: #FFFFFF;
-	 margin:5px auto;}
+* {
+    margin: 0px;
+    padding: 0px;
+}
 
-.imageBlockHeader{
-	width: 355px; 
-	height: 30px; 
-	background-color: #EDE9E9;
-	padding-left: 10px;
-  padding-right: 10px;
-  line-height: 30px}
+body {
+    padding-bottom: 20px;
+    background-color: #000000;
+}
 
-.ibh_l{width: 90%}
+.carousel {
+    background-color: white;
+    margin-bottom: 5px;
+    margin-top: -15px;
+}
 
-.ibh_r{width: 10%; text-align: right;}
+.carousel .item {
+    background-color: white;
+}
 
-.imageBlockView_son{
-	width: 33.3%;
-	height: 180px;
-	float: left;  
-	margin-top: 7px;
-	text-align: center;}
+.carousel img {
+    width: 100%;
+}
 
-.imageView{
-	width:107px;
-	height:144px;
-	margin: 0px auto}
+#homenav {
+    background-color: white;
+}
 
-.imageView a{
-	display: block;
-	width:100%;
-	height:100%;}
-
-.ibb_t{font-size: 12px;}
-
-.ibb_t a{margin-top: 7px}
+#summery .col-md-6 {
+    margin-bottom: 5px;
+}

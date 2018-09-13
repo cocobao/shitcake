@@ -22,6 +22,7 @@ func LoadRouter() *gin.Engine {
 	router.POST("/upload", UploadPost)
 	router.GET("/topicdetail", TopicDetail)
 	router.GET("/deltopic", DeleteTopic)
+	router.POST("/insert-topic", InsertTopic)
 	return router
 }
 
