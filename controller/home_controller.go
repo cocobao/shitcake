@@ -9,17 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type HomeController struct {
-	BaseController
-}
-
-func NewHomeController(c *gin.Context) *HomeController {
-	ctrl := &HomeController{}
-	ctrl.ginCtx = c
-	return ctrl
-}
-
-func (c *HomeController) Get() {
+func Home(g *gin.Context) {
 	topic := store.GetTopics(10, 0)
 
 	for _, v := range topic {
@@ -35,7 +25,7 @@ func (c *HomeController) Get() {
 		log.Debugf("st:%s, %#v", st, v)
 	}
 
-	c.ginCtx.HTML(http.StatusOK, "home.html", gin.H{
+	g.HTML(http.StatusOK, "home.html", gin.H{
 		"items": topic,
 	})
 }

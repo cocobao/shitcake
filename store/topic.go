@@ -43,7 +43,7 @@ func GetImageTopicWithTid(topicID string) (*model.ImageTopic, error) {
 	defer c.Close()
 	coll := c.DB(DBTopic).C(DBColl)
 
-	selector := bson.M{"topic_id": topicID}
+	selector := bson.M{"_id": topicID}
 	var data model.ImageTopic
 	err := coll.Find(selector).One(&data)
 	if err != nil {

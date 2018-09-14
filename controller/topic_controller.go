@@ -8,7 +8,6 @@ import (
 
 	"github.com/cocobao/log"
 	"github.com/cocobao/shitcake/store"
-	"github.com/cocobao/shitcake/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,16 +23,18 @@ func NewTopicController(c *gin.Context) *TopicController {
 
 func (c *TopicController) Get() {
 	tid := c.ginCtx.Query("tid")
+	log.Debug("get topic:", tid)
 
 	topic, err := store.GetImageTopicWithTid(tid)
 	if err != nil {
+		log.Warnf("get topic:%s fail, err:%v", tid, err)
 		c.ginCtx.Redirect(301, "/")
 		return
 	}
-	log.Debugf("topic:%#v", topic)
+	log.Debugf("topic detail:%#v", topic)
 
 	c.ginCtx.HTML(http.StatusOK, "pic_detail.html", gin.H{
-		"files": utils.StructToMapJson(topic),
+		"files": topic,
 	})
 }
 
@@ -49,4 +50,21 @@ func (c *TopicController) Del() {
 	pt = path.Join("static/images", fmt.Sprintf("/%s/", tid))
 	os.RemoveAll(pt)
 	c.ginCtx.Redirect(301, "/")
+}
+
+func GetTopicDetail(g *gin.Context) {
+	tid := g.Param("tid")
+	log.Debug("get topic:", tid)
+
+	topic, err := store.GetImageTopicWithTid(tid)
+	if err != nil {
+		log.Warnf("get topic:%s fail, err:%v", tid, err)
+		g.Redirect(301, "/")
+		return
+	}
+	log.Debugf("topic detail:%#v", topic)
+
+	g.HTML(http.StatusOK, "pic_detail.html", gin.H{
+		"items": topic,
+	})
 }

@@ -1,33 +1,105 @@
-{{template "header"}}
-<link rel="stylesheet" href="/static/css/view-picture-detail.css" type="text/css"> {{template "middle"}}
-<script src="js/echo.min.js"></script>
-<script>
+<!DOCTYPE html>
+<html lang="en">
 
-Echo.init({
-    offset: 0,//离可视区域多少像素的图片可以被加载
-　　 throttle: 0 //图片延时多少毫秒加载
-}); 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
+    <title>home</title>
 
-</script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="shortcut icon" href="/static/icon/favicon.ico" type="image/x-icon">
+    <!-- <script src="js/echo.min.js"></script> -->
+    <!-- <script>
+        Echo.init({
+            offset: 0, //离可视区域多少像素的图片可以被加载
+            　　throttle: 0 //图片延时多少毫秒加载
+        });
+    </script> -->
 
-<div class="content-wrap">
-    <div class="content">
-        {{$tid := .files.topic_id}}
-        <div class="detail-header">
-            <h2>{{.files.title}}</h2>
-            <div class="detail-info">
-                <span>日期{{.files.create_time}}</span>
-                <span>被撸{{.files.see_time}}次</span>
-                <a href="/deltopic?tid={{$tid}}">删除</a>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        body {
+            padding-bottom: 20px;
+            /* background-color: #000000; */
+        }
+        
+        .images_section {
+            margin-top: -14px;
+            padding-top: 45px;
+            background-color: #fff;
+        }
+        
+        @media (min-width: 768px) {
+            .images_section {
+                display: block;
+                margin-bottom: 20px;
+                border-color: #ddd;
+                border-width: 1px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .images_section {
+                display: block;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #ddd;
+                margin-left: 2px;
+                margin-right: 2px;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {{template "comm_navbar"}}
+
+    <!-- <div class="content-wrap">
+        <div class="content">
+            {{$tid := .items.ID}}
+            <div class="detail-header">
+                <h2>{{.files.title}}</h2>
+                <div class="detail-info">
+                    <span>日期{{.items.CreateTime}}</span>
+                    <span>被撸{{.items.SeeCount}}次</span>
+                    <a href="/deltopic?tid={{$tid}}">删除</a>
+                </div>
+            </div>
+
+            {{range .items.Images}}
+            <p>
+                <img class="lazy" data-echo="/static/img/{{$tid}}/{{.}}" alt="" width="100%" height="100%">
+            </p>
+            {{end}}
+        </div>
+    </div> -->
+
+    <div class="container">
+        <div class="row">
+            <div class="images_section">
+
             </div>
         </div>
 
-        {{range .files.images}}
-        <p>
-            <img class="lazy" data-echo="/static/images/{{$tid}}/{{.}}" alt="" width="100%" height="100%">
-        </p>
-        {{end}}
-    </div>
-</div>
+        <div class="row">
+            <div class="btn-group" role="group" aria-label="">
+                <button type="button" class="btn btn-default">上一页</button>
+                <button type="button" class="btn btn-default">下一页</button>
+            </div>
+        </div>
 
-{{template "footer"}}
+
+        <hr> {{template "comm_footer"}}
+    </div>
+
+</body>
+
+</html>
