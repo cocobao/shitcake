@@ -30,7 +30,7 @@
         
         .images_section {
             margin-top: -14px;
-            padding-top: 45px;
+            padding-top: 5px;
             background-color: #fff;
         }
         
@@ -43,6 +43,9 @@
                 border: 1px solid #ddd;
                 border-radius: 4px;
             }
+            .img_each {
+                max-height: 600px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -54,6 +57,9 @@
                 margin-left: 2px;
                 margin-right: 2px;
                 margin-bottom: 20px;
+            }
+            .img_each {
+                max-height: 490px;
             }
         }
     </style>
@@ -85,14 +91,26 @@
     <div class="container">
         <div class="row">
             <div class="images_section">
-
+                <p>
+                    <h4 style="text-align: center;">
+                        测试标题测试标题
+                    </h4>
+                </p>
+                <p style="text-align: center;">
+                    <small>发布时间:2018-9-19</small>
+                    <small> 被查看10次</small>
+                    <a style="margin-left:5px;font-size: 10px;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 赞({{1}})</a>
+                </p>
+                <p class=" img_part " style="text-align: center; ">
+                    <img class="img_each " src="/static/img/test_img_6.png " alt=" ">
+                </p>
             </div>
         </div>
 
-        <div class="row">
-            <div class="btn-group" role="group" aria-label="">
-                <button type="button" class="btn btn-default">上一页</button>
-                <button type="button" class="btn btn-default">下一页</button>
+        <div class="row ">
+            <div class="btn-group " role="group " aria-label=" ">
+                <button type="button " class="btn btn-default ">上一页</button>
+                <button type="button " class="btn btn-default ">下一页</button>
             </div>
         </div>
 
