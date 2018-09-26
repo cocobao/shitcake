@@ -18,6 +18,8 @@ func TestInsertTopic(t *testing.T) {
 		Msg:      "测试内容测试内容",
 		Category: 1,
 		IsVip:    false,
-		Images:   []string{},
+		Images: []string{
+			"/static/img/test_img_6.png",
+		},
 	})
 }

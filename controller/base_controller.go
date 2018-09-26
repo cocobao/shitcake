@@ -16,6 +16,10 @@ type BaseController struct {
 	ginCtx *gin.Context
 }
 
+func (c *BaseController) ResponseSuccess(rsp interface{}) {
+	c.ginCtx.JSON(http.StatusOK, rsp)
+}
+
 func (c *BaseController) TurnToPage(page string) {
 	c.ginCtx.HTML(http.StatusOK, page, gin.H{})
 }

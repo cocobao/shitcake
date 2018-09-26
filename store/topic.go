@@ -8,7 +8,7 @@ import (
 func InsertTopic(data *model.ImageTopic) error {
 	c := MgoSession.Clone()
 	defer c.Close()
-	coll := c.DB(DBTopic).C(DBColl)
+	coll := c.DB(DBTopic).C(DBCollTopic)
 
 	return coll.Insert(data)
 }
@@ -18,30 +18,24 @@ func SaveImageTopic(data *model.ImageTopic) error {
 	defer c.Close()
 
 	selector := bson.M{"topic_id": data.ID}
-	coll := c.DB(DBTopic).C(DBColl)
+	coll := c.DB(DBTopic).C(DBCollTopic)
 	_, err := coll.Upsert(selector, data)
 	return err
 }
 
-func GetTopics(count, page int) []*model.ImageTopic {
+func GetTopics(count, page int) ([]*model.ImageTopic, error) {
 	c := MgoSession.Clone()
 	defer c.Close()
-	coll := c.DB(DBTopic).C(DBColl)
-
-	iter := coll.Find(nil).Sort("$ctime:-1").Limit(count).Iter()
+	coll := c.DB(DBTopic).C(DBCollTopic)
 
 	var out []*model.ImageTopic
-	var one model.ImageTopic
-	for iter.Next(&one) {
-		out = append(out, &one)
-	}
-	return out
+	return out, coll.Find(nil).Sort("$ctime:-1").Limit(count).Skip(page).All(&out)
 }
 
 func GetImageTopicWithTid(topicID string) (*model.ImageTopic, error) {
 	c := MgoSession.Clone()
 	defer c.Close()
-	coll := c.DB(DBTopic).C(DBColl)
+	coll := c.DB(DBTopic).C(DBCollTopic)
 
 	selector := bson.M{"_id": topicID}
 	var data model.ImageTopic
@@ -58,7 +52,7 @@ func GetImageTopicWithTid(topicID string) (*model.ImageTopic, error) {
 func DelImageTopicWithTid(topicID string) error {
 	c := MgoSession.Clone()
 	defer c.Close()
-	coll := c.DB(DBTopic).C(DBColl)
+	coll := c.DB(DBTopic).C(DBCollTopic)
 
 	selector := bson.M{"topic_id": topicID}
 	return coll.Remove(selector)

@@ -9,8 +9,9 @@ import (
 var MgoSession *mgo.Session
 
 const (
-	DBTopic string = "topic"
-	DBColl  string = "image_topic"
+	DBTopic         string = "topic"
+	DBCollTopic     string = "image_topic"
+	DBCollImageData string = "image_data"
 )
 
 func SetupMongoDB(url string) {

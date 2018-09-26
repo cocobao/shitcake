@@ -55,7 +55,7 @@
 
             {{range .items}}
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-3 col-xs-4">
                         <a href="/detail/{{.ID}}">
@@ -65,21 +65,22 @@
 
                     <div class="col-md-9 col-xs-8" id="show_word">
                         <h4 style="text-align: left; margin-top: 40px; margin-left: 10px;">{{.Title}}</h4>
-                        <p style="margin-top:30px ;margin-left: 10px;">
+                        <p style="margin-top:20px ;margin-left: 10px;">
                             {{.CreateTime}} <span class="glyphicon glyphicon-flag" aria-hidden="true" style="margin-left:5px;"></span> 阅读({{.SeeCount}})
-                            <span style="margin-left:5px;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 赞({{.PraiseCount}})</span>
+                            <p style="margin-left: 10px;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 赞({{.PraiseCount}})</p>
                         </p>
                     </div>
                 </div>
             </div>
 
-            {{end}}
+            <hr style="margin-top: 1px;"> {{end}}
 
         </div>
 
         <div class="btn-group" role="group" aria-label="">
+            <input type="text" value="{{.page}}" hidden=true>
             <button type="button" class="btn btn-default">上一页</button>
-            <button type="button" class="btn btn-default">下一页</button>
+            <a href="/index/{{.page}}/1"><button type="button" class="btn btn-default">下一页</button></a>
         </div>
         <hr>
     </div>

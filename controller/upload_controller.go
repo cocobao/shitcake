@@ -33,8 +33,9 @@ func (c *UploadController) SimpleInsertTopic() {
 		return
 	}
 
+	topicId := uuid.New().String()
 	store.InsertTopic(&model.ImageTopic{
-		ID:          uuid.New().String(),
+		ID:          topicId,
 		Icon:        req.Icon,
 		Title:       req.Title,
 		Category:    req.Category,
@@ -43,8 +44,19 @@ func (c *UploadController) SimpleInsertTopic() {
 		SeeCount:    0,
 		PraiseCount: 0,
 		Description: req.Msg,
-		Images:      req.Images,
 	})
+
+	for index, img := range req.Images {
+		store.InsertImageData(&model.ImageData{
+			ID:         uuid.New().String(),
+			TopicID:    topicId,
+			Index:      index,
+			URL:        img,
+			InsertTime: time.Now().Format(time.RFC3339),
+		})
+	}
+
+	c.ResponseSuccess(struct{}{})
 }
 
 func (c *UploadController) Get() {

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/cocobao/log"
@@ -10,22 +11,40 @@ import (
 )
 
 func Home(g *gin.Context) {
-	topic := store.GetTopics(10, 0)
+	var page int
+	if v := g.Param("page"); len(v) > 0 {
+		page, _ = strconv.Atoi(v)
 
-	for _, v := range topic {
-		v.Images = []string{}
+	} else {
+		page = 0
+	}
 
-		t, err := time.Parse(time.RFC3339, v.CreateTime)
+	var num int
+	if v := g.Param("num"); len(v) > 0 {
+		num, _ = strconv.Atoi(v)
+		if num > 10 {
+			num = 10
+		}
+	} else {
+		num = 1
+	}
+
+	topic, _ := store.GetTopics(num, page)
+
+	for _, val := range topic {
+		t, err := time.Parse(time.RFC3339, val.CreateTime)
 		if err != nil {
 			log.Warnf("parse time fail,err:%v", err)
 		}
 		st := t.Format("2006-01-02 15:04:05")
-		v.CreateTime = st
+		val.CreateTime = st
 
-		log.Debugf("st:%s, %#v", st, v)
+		log.Debugf("st:%s, %#v", st, val)
 	}
 
 	g.HTML(http.StatusOK, "home.html", gin.H{
 		"items": topic,
+		"page":  page,
+		"num":   num,
 	})
 }

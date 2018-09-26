@@ -16,6 +16,7 @@ func LoadRouter() *gin.Engine {
 	router.Static("/static", "./static")
 	// router.Static("/static2", "/Users/ybz/Documents/static")
 	router.GET("/", controller.Home)
+	router.GET("/index/:page/:num", controller.Home)
 	// router.GET("/login", LoginGet)
 	// router.POST("/login", LoginPost)
 	// router.GET("/upload", UploadGet)
