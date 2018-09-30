@@ -68,26 +68,6 @@
 <body>
     {{template "comm_navbar"}}
 
-    <!-- <div class="content-wrap">
-        <div class="content">
-            {{$tid := .items.ID}}
-            <div class="detail-header">
-                <h2>{{.files.title}}</h2>
-                <div class="detail-info">
-                    <span>日期{{.items.CreateTime}}</span>
-                    <span>被撸{{.items.SeeCount}}次</span>
-                    <a href="/deltopic?tid={{$tid}}">删除</a>
-                </div>
-            </div>
-
-            {{range .items.Images}}
-            <p>
-                <img class="lazy" data-echo="/static/img/{{$tid}}/{{.}}" alt="" width="100%" height="100%">
-            </p>
-            {{end}}
-        </div>
-    </div> -->
-
     <div class="container">
         <div class="row">
             <div class="images_section">
@@ -101,9 +81,13 @@
                     <small style="margin-left: 5px; margin-right: 5px;"> 被查看10次</small>
                     <a style="margin-left:5px;font-size: 10px;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 赞({{1}})</a>
                 </p>
+
+                {{range .items}}
                 <p class=" img_part " style="text-align: center; ">
-                    <img class="img_each " src="/static/img/test_img_6.png" alt=" ">
+                    <img class="img_each " src={{.URL}} alt=" ">
                 </p>
+
+                {{end}}
             </div>
         </div>
 

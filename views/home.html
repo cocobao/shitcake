@@ -57,7 +57,7 @@
 
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-3 col-xs-4">
+                    <div class="col-md-2 col-xs-4">
                         <a href="/detail/{{.ID}}">
                             <img src="{{.Icon}}" class="">
                         </a>
@@ -78,9 +78,10 @@
         </div>
 
         <div class="btn-group" role="group" aria-label="">
-            <input type="text" value="{{.page}}" hidden=true>
-            <button type="button" class="btn btn-default">上一页</button>
-            <a href="/index/{{.page}}/1"><button type="button" class="btn btn-default">下一页</button></a>
+            {{if ne .page 0}}
+            <button type="button" class="btn btn-default">上一页</button> {{end}}
+
+            <a href="/index/{{addcount .page 1}}/10"><button type="button" class="btn btn-default">下一页</button></a>
         </div>
         <hr>
     </div>
