@@ -1,21 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
     <title>home</title>
 
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="shortcut icon" href="/static/icon/favicon.ico" type="image/x-icon">
-    <!-- <script src="js/echo.min.js"></script> -->
-    <!-- <script>
-        Echo.init({
-            offset: 0, //离可视区域多少像素的图片可以被加载
-            　　throttle: 0 //图片延时多少毫秒加载
-        });
-    </script> -->
+    {{template "comm_header"}}
 
     <style>
         * {
@@ -44,7 +33,8 @@
                 border-radius: 4px;
             }
             .img_each {
-                max-height: 600px;
+                /* max-height: 600px; */
+                max-width: 768px;
             }
         }
         
@@ -59,7 +49,8 @@
                 margin-bottom: 20px;
             }
             .img_each {
-                max-height: 490px;
+                /* max-height: 490px; */
+                max-width: 380px;
             }
         }
     </style>
@@ -68,25 +59,6 @@
 <body>
     {{template "comm_navbar"}}
 
-    <!-- <div class="content-wrap">
-        <div class="content">
-            {{$tid := .items.ID}}
-            <div class="detail-header">
-                <h2>{{.files.title}}</h2>
-                <div class="detail-info">
-                    <span>日期{{.items.CreateTime}}</span>
-                    <span>被撸{{.items.SeeCount}}次</span>
-                    <a href="/deltopic?tid={{$tid}}">删除</a>
-                </div>
-            </div>
-
-            {{range .items.Images}}
-            <p>
-                <img class="lazy" data-echo="/static/img/{{$tid}}/{{.}}" alt="" width="100%" height="100%">
-            </p>
-            {{end}}
-        </div>
-    </div> -->
 
     <div class="container">
         <div class="row">
@@ -101,9 +73,12 @@
                     <small style="margin-left: 5px; margin-right: 5px;"> 被查看10次</small>
                     <a style="margin-left:5px;font-size: 10px;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 赞({{1}})</a>
                 </p>
+
+                {{range .imgs}}
                 <p class=" img_part " style="text-align: center; ">
-                    <img class="img_each " src="/static/img/test_img_6.png" alt=" ">
+                    <img class="img_each " src="{{.URL}}" alt=" ">
                 </p>
+                {{end}}
             </div>
         </div>
 

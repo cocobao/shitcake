@@ -21,7 +21,7 @@ func LoadRouter() *gin.Engine {
 	// router.POST("/login", LoginPost)
 	// router.GET("/upload", UploadGet)
 	// router.POST("/upload", UploadPost)
-	router.GET("/detail/:tid", controller.GetTopicDetail)
+	router.GET("/d/:tid/:page", controller.GetTopicDetail)
 	// router.GET("/deltopic/:id", DeleteTopic)
 	router.POST("/insert-topic", InsertTopic)
 	return router

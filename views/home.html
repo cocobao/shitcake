@@ -1,21 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>home</title>
-
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="shortcut icon" href="/static/icon/favicon.ico" type="image/x-icon">
+    {{template "comm_header"}}
     <link rel="stylesheet" href="/static/css/home.css" type="text/css">
 </head>
 
 <body>
     {{template "comm_navbar"}}
 
-    <div class="container" id="summery">
+    <!-- <div class="container" id="summery">
         <div class="row">
             <div class="col-md-12">
                 <div id="carousel-generic" class="carousel slide" data-ride="carousel">
@@ -48,7 +43,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="container" id="summery">
         <div class="row">
@@ -57,15 +52,15 @@
 
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-3 col-xs-4">
-                        <a href="/detail/{{.ID}}">
+                    <div class="col-md-3 col-xs-8">
+                        <a href="/d/{{.ID}}/0">
                             <img src="{{.Icon}}" class="">
                         </a>
                     </div>
 
                     <div class="col-md-9 col-xs-8" id="show_word">
-                        <h4 style="text-align: left; margin-top: 40px; margin-left: 10px;">{{.Title}}</h4>
-                        <p style="margin-top:20px ;margin-left: 10px;">
+                        <h4 style="text-align: left; margin-top: 20px; margin-left: 10px;">{{.Title}}</h4>
+                        <p style="margin-top:10px ;margin-left: 10px;">
                             {{.CreateTime}} <span class="glyphicon glyphicon-flag" aria-hidden="true" style="margin-left:5px;"></span> 阅读({{.SeeCount}})
                             <p style="margin-left: 10px;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 赞({{.PraiseCount}})</p>
                         </p>

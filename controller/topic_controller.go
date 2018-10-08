@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strconv"
 
 	"github.com/cocobao/log"
 	"github.com/cocobao/shitcake/store"
@@ -54,7 +55,9 @@ func (c *TopicController) Del() {
 
 func GetTopicDetail(g *gin.Context) {
 	tid := g.Param("tid")
-	log.Debug("get topic:", tid)
+	page, _ := strconv.Atoi(g.Param("page"))
+
+	log.Debugf("get topic:%s, page:%s", tid, page)
 
 	topic, err := store.GetImageTopicWithTid(tid)
 	if err != nil {
@@ -64,7 +67,17 @@ func GetTopicDetail(g *gin.Context) {
 	}
 	log.Debugf("topic detail:%#v", topic)
 
+	imgData, err := store.GetImageData(tid, page, 10)
+	if err != nil {
+		log.Errorf("get image data fail,%v", err)
+		g.Redirect(301, "/")
+		return
+	}
+
+	log.Debugf("imgData:%+v", imgData)
+
 	g.HTML(http.StatusOK, "pic_detail.html", gin.H{
 		"items": topic,
+		"imgs":  imgData,
 	})
 }
