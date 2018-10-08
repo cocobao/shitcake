@@ -59,13 +59,12 @@ func GetTopicDetail(g *gin.Context) {
 
 	log.Debugf("get topic:%s, page:%s", tid, page)
 
-	topic, err := store.GetImageTopicWithTid(tid)
+	imgData, err := store.GetImageData(tid)
 	if err != nil {
 		log.Warnf("get topic:%s fail, err:%v", tid, err)
 		g.Redirect(301, "/")
 		return
 	}
-	log.Debugf("topic detail:%#v", topic)
 
 	imgData, err := store.GetImageData(tid, page, 10)
 	if err != nil {

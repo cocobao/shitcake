@@ -1,6 +1,10 @@
 package routers
 
 import (
+	"html/template"
+
+	"github.com/cocobao/shitcake/modefunc"
+
 	"github.com/cocobao/shitcake/controller"
 	"github.com/gin-gonic/gin"
 )
@@ -12,6 +16,7 @@ func LoadRouter() *gin.Engine {
 	router.Use(gin.Logger())
 	router.Use(controller.Auth())
 	// router.LoadHTMLGlob("views/learn/*")
+	router.SetHTMLTemplate(template.New("").Funcs(modefunc.FuncsMap))
 	router.LoadHTMLGlob("views/*.html")
 	router.Static("/static", "./static")
 	// router.Static("/static2", "/Users/ybz/Documents/static")
@@ -24,6 +29,7 @@ func LoadRouter() *gin.Engine {
 	router.GET("/d/:tid/:page", controller.GetTopicDetail)
 	// router.GET("/deltopic/:id", DeleteTopic)
 	router.POST("/insert-topic", InsertTopic)
+
 	return router
 }
 

@@ -26,7 +26,7 @@ func Home(g *gin.Context) {
 			num = 10
 		}
 	} else {
-		num = 1
+		num = 10
 	}
 
 	topic, _ := store.GetTopics(num, page)
