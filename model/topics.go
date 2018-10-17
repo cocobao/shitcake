@@ -9,7 +9,8 @@ type ImageTopic struct {
 	IsVip       bool   `bson:"is_vip" json:"is_vip"`             //是否会员专享
 	SeeCount    int64  `bson:"see_count" json:"see_count"`       //查看次数
 	PraiseCount int64  `bson:"praise_count" json:"praise_count"` //被赞次数
-	Description string `bson:"description" json:"description"`   //说明
+	LowCount    int64  `bson:"low_count" json:"low_count"`
+	Description string `bson:"description" json:"description"` //说明
 }
 
 type ImageData struct {

@@ -59,14 +59,14 @@ func GetTopicDetail(g *gin.Context) {
 
 	log.Debugf("get topic:%s, page:%s", tid, page)
 
-	imgData, err := store.GetImageData(tid)
+	topic, err := store.GetImageTopicWithTid(tid)
 	if err != nil {
 		log.Warnf("get topic:%s fail, err:%v", tid, err)
 		g.Redirect(301, "/")
 		return
 	}
-
-	imgData, err := store.GetImageData(tid, page, 10)
+	num := 10
+	imgData, err := store.GetImageData(tid, page, num)
 	if err != nil {
 		log.Errorf("get image data fail,%v", err)
 		g.Redirect(301, "/")
@@ -74,9 +74,25 @@ func GetTopicDetail(g *gin.Context) {
 	}
 
 	log.Debugf("imgData:%+v", imgData)
-
+	isTail := !(len(imgData) == num)
 	g.HTML(http.StatusOK, "pic_detail.html", gin.H{
-		"items": topic,
-		"imgs":  imgData,
+		"items":      topic,
+		"imgs":       imgData,
+		"page":       page,
+		"next_page":  page + 1,
+		"back_page":  page - 1,
+		"imgs_count": len(imgData),
+		"istail":     isTail,
 	})
+}
+
+func TopicNice(g *gin.Context) {
+	tid := g.Param("tid")
+	state, _ := strconv.Atoi(g.Param("state"))
+
+	if len(tid) == 0 {
+		g.Redirect(404, "/404")
+		return
+	}
+	store.SetTopicNice(tid, state)
 }

@@ -14,7 +14,6 @@
         
         body {
             padding-bottom: 20px;
-            /* background-color: #000000; */
         }
         
         .images_section {
@@ -64,13 +63,13 @@
             <div class="images_section">
                 <p>
                     <h4 style="text-align: center;">
-                        测试标题测试标题
+                        {{.items.Title}}
                     </h4>
                 </p>
                 <p style="text-align: center;">
                     <small>发布时间:2018-9-19</small>
-                    <small style="margin-left: 5px; margin-right: 5px;"> 被查看10次</small>
-                    <a style="margin-left:5px;font-size: 10px;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 赞({{1}})</a>
+                    <small style="margin-left: 5px; margin-right: 5px;"> 被撸{{.items.SeeCount}}次</small>
+                    <a href="/tpnic/{{.items.ID}}/0" style="margin-left:5px;font-size: 10px;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> </a>({{.items.PraiseCount}})
                 </p>
 
                 {{range .imgs}}
@@ -83,8 +82,17 @@
 
         <div class="row ">
             <div class="btn-group " role="group " aria-label=" ">
-                <button type="button " class="btn btn-default ">上一页</button>
-                <button type="button " class="btn btn-default ">下一页</button>
+                {{if ne .page 0}}
+                <a href="/d/{{.items.ID}}/{{.back_page}}">
+                    <button type="button " class="btn btn-default ">上一页</button>
+                </a>
+                {{end}}
+                <!--  -->
+                {{if not .istail}}
+                <a href="/d/{{.items.ID}}/{{.next_page}}">
+                    <button type="button " class="btn btn-default ">下一页</button>
+                </a>
+                {{end}}
             </div>
         </div>
 

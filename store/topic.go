@@ -29,7 +29,7 @@ func GetTopics(count, page int) ([]*model.ImageTopic, error) {
 	coll := c.DB(DBTopic).C(DBCollTopic)
 
 	var out []*model.ImageTopic
-	return out, coll.Find(nil).Sort("$ctime:-1").Limit(count).Skip(page).All(&out)
+	return out, coll.Find(nil).Sort("-create_time").Limit(count).Skip(page * count).All(&out)
 }
 
 func GetImageTopicWithTid(topicID string) (*model.ImageTopic, error) {
@@ -56,4 +56,25 @@ func DelImageTopicWithTid(topicID string) error {
 
 	selector := bson.M{"topic_id": topicID}
 	return coll.Remove(selector)
+}
+
+func SetTopicNice(tid string, state int) error {
+	c := MgoSession.Clone()
+	defer c.Close()
+	coll := c.DB(DBTopic).C(DBCollTopic)
+
+	tinfo := &model.ImageTopic{}
+	if err := coll.FindId(tid).One(&tinfo); err != nil {
+		return err
+	}
+
+	var err error
+	if state == 0 {
+		tinfo.PraiseCount++
+		_, err = coll.UpsertId(tid, bson.M{"$set": bson.M{"praise_count": tinfo.PraiseCount}})
+	} else if state == 1 {
+		tinfo.LowCount++
+		_, err = coll.UpsertId(tid, bson.M{"$set": bson.M{"low_count": tinfo.LowCount}})
+	}
+	return err
 }

@@ -21,7 +21,7 @@ func LoadRouter() *gin.Engine {
 	router.Static("/static", "./static")
 	// router.Static("/static2", "/Users/ybz/Documents/static")
 	router.GET("/", controller.Home)
-	router.GET("/index/:page/:num", controller.Home)
+	router.GET("/index/:page", controller.Home)
 	// router.GET("/login", LoginGet)
 	// router.POST("/login", LoginPost)
 	// router.GET("/upload", UploadGet)
@@ -29,6 +29,7 @@ func LoadRouter() *gin.Engine {
 	router.GET("/d/:tid/:page", controller.GetTopicDetail)
 	// router.GET("/deltopic/:id", DeleteTopic)
 	router.POST("/insert-topic", InsertTopic)
+	router.GET("/tpnic/:tid/:state", controller.TopicNice)
 
 	return router
 }

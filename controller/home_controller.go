@@ -26,7 +26,7 @@ func Home(g *gin.Context) {
 			num = 10
 		}
 	} else {
-		num = 10
+		num = 3
 	}
 
 	topic, _ := store.GetTopics(num, page)
@@ -42,9 +42,15 @@ func Home(g *gin.Context) {
 		log.Debugf("st:%s, %#v", st, val)
 	}
 
+	isTail := !(len(topic) == num)
+
 	g.HTML(http.StatusOK, "home.html", gin.H{
-		"items": topic,
-		"page":  page,
-		"num":   num,
+		"items":       topic,
+		"page":        page,
+		"next_page":   page + 1,
+		"back_page":   page - 1,
+		"items_count": len(topic),
+		"num":         num,
+		"istail":      isTail,
 	})
 }
