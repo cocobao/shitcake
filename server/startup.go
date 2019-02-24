@@ -9,5 +9,5 @@ import (
 func Setup() {
 	conf.SetupConfig()
 	store.SetupMongoDB(conf.GCfg.MongoDb)
-	routers.Run()
+	routers.Run(conf.GCfg.Port)
 }

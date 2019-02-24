@@ -82,13 +82,13 @@ func (c *UploadController) Post() {
 	err = c.SaveIcon(topic)
 	if err != nil {
 		log.Warn("save icon fail", err)
-		c.ginCtx.Redirect(301, "/upload")
+		c.ginCtx.Redirect(302, "/upload")
 		return
 	}
 	err = c.staticImageList(topic)
 	if err != nil {
 		log.Warn("save images fail", err)
-		c.ginCtx.Redirect(301, "/upload")
+		c.ginCtx.Redirect(302, "/upload")
 		return
 	}
 

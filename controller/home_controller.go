@@ -29,6 +29,9 @@ func Home(g *gin.Context) {
 		num = 3
 	}
 
+	g.HTML(http.StatusOK, "home.html", nil)
+	return
+
 	topic, _ := store.GetTopics(num, page)
 
 	for _, val := range topic {

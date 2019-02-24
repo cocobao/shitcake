@@ -53,6 +53,7 @@
             }
         }
     </style>
+
 </head>
 
 <body>
@@ -67,9 +68,12 @@
                     </h4>
                 </p>
                 <p style="text-align: center;">
-                    <small>发布时间:2018-9-19</small>
+                    <small>发布时间:{{.items.CreateTime}}</small>
                     <small style="margin-left: 5px; margin-right: 5px;"> 被撸{{.items.SeeCount}}次</small>
-                    <a href="/tpnic/{{.items.ID}}/0" style="margin-left:5px;font-size: 10px;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> </a>({{.items.PraiseCount}})
+                    <a href="/tpnic/{{.items.ID}}/0/{{.page}}" style="margin-left:5px;font-size: 10px;">
+                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                    </a>
+                    ({{.items.PraiseCount}})
                 </p>
 
                 {{range .imgs}}
@@ -95,11 +99,12 @@
                 {{end}}
             </div>
         </div>
-
-
-        <hr> {{template "comm_footer"}}
+        <hr>
     </div>
+    {{template "comm_footer"}}
 
+    <script src="https://www.promisejs.org/polyfills/promise-6.1.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.min.js"></script>
 </body>
 
 </html>

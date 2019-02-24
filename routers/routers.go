@@ -29,12 +29,13 @@ func LoadRouter() *gin.Engine {
 	router.GET("/d/:tid/:page", controller.GetTopicDetail)
 	// router.GET("/deltopic/:id", DeleteTopic)
 	router.POST("/insert-topic", InsertTopic)
-	router.GET("/tpnic/:tid/:state", controller.TopicNice)
+	router.GET("/delete-topic:tid", DeleteTopic)
+	router.GET("/tpnic/:tid/:state/:page", controller.TopicNice)
 
 	return router
 }
 
-func Run() {
+func Run(port string) {
 	engin := LoadRouter()
-	engin.Run()
+	engin.Run(port)
 }

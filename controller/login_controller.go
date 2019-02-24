@@ -9,7 +9,7 @@ var IsLogin bool
 func Auth() gin.HandlerFunc {
 	return func(g *gin.Context) {
 		// if !IsLogin {
-		// 	g.Redirect(301, "/login")
+		// 	g.Redirect(302, "/login")
 		// 	return
 		// }
 	}
@@ -34,7 +34,7 @@ func (c *LogController) Post() {
 	pwd := c.ginCtx.Request.PostFormValue("pwd")
 
 	if uname != "admin" || pwd != "admin" {
-		c.ginCtx.Redirect(301, "/login")
+		c.ginCtx.Redirect(302, "/login")
 	}
 	IsLogin = true
 	c.TurnToPage("uploadImage.html")

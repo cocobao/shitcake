@@ -54,7 +54,7 @@ func DelImageTopicWithTid(topicID string) error {
 	defer c.Close()
 	coll := c.DB(DBTopic).C(DBCollTopic)
 
-	selector := bson.M{"topic_id": topicID}
+	selector := bson.M{"_id": topicID}
 	return coll.Remove(selector)
 }
 
